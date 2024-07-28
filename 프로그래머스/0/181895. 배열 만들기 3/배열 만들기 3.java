@@ -1,17 +1,20 @@
+import java.util.*;
+
 class Solution {
     public int[] solution(int[] arr, int[][] intervals) {
-        // 반환하는 배열 길이 구하기
-        int n = 0;
-        for (int i = 0; i < intervals.length; i++) {
-            n += intervals[i][1] - intervals[i][0] + 1;
-        }
-        int[] result = new int[n];
+        List<Integer> list = new ArrayList<>();
         
-        int index = 0;
         for (int i = 0; i < intervals.length; i++) {
-            for (int j = intervals[i][0]; j <= intervals[i][1]; j++) {
-                result[index++] = arr[j];
+            int start = intervals[i][0];
+            int end = intervals[i][1];
+            for (int j = start; j <= end; j++) {
+                list.add(arr[j]);
             }
+        }
+        
+        int[] result = new int[list.size()];
+        for (int i = 0; i < list.size(); i++) {
+            result[i] = list.get(i);
         }
         
         return result;
