@@ -1,20 +1,17 @@
-import java.util.*;
-
 class Solution {
     public int[] solution(int[] arr, int[][] intervals) {
-        List<Integer> list = new ArrayList<>();
+        int s1 = intervals[0][0], e1 = intervals[0][1];
+        int s2 = intervals[1][0], e2 = intervals[1][1];
         
-        for (int i = 0; i < intervals.length; i++) {
-            int start = intervals[i][0];
-            int end = intervals[i][1];
-            for (int j = start; j <= end; j++) {
-                list.add(arr[j]);
-            }
+        int[] result = new int[e1 - s1 + e2 - s2 + 2];
+        
+        int index = 0;
+        for (int i = s1; i <= e1; i++) {
+            result[index++] = arr[i];
         }
         
-        int[] result = new int[list.size()];
-        for (int i = 0; i < list.size(); i++) {
-            result[i] = list.get(i);
+        for (int i = s2; i <= e2; i++) {
+            result[index++] = arr[i];
         }
         
         return result;
