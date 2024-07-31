@@ -1,11 +1,5 @@
 import java.util.*;
 
-
-/**
- 1. 2중 for문을 돌면서 자기 자신을 제외한 다른 1을 파악하여 해당 1이 있는 idx에 대해 반복한다.
- 2. 조건에 맞다면 dfs 메소드를 호출하여 조건에 맞을 때 queue에 저장하면서 자신과 연관되어있는 모든 배열에 대해 방문을 표시한다.
- 3. 연결된 모든 컴퓨터를 확인하면 dfs를 종료하고 다음 컴퓨터를 확인한다.
-*/
 class Solution {
     public int solution(int n, int[][] computers) {
         int result = 0;
@@ -15,11 +9,21 @@ class Solution {
         for (int i = 0; i < n; i++) {
             if (!visited[i]) {
                 result++;
-                bfs(computers, visited, i);
+                dfs(computers, visited, i);
             }
         }
         
         return result;
+    }
+    
+    static void dfs(int[][] computers, boolean[] visited, int k) {
+        visited[k] = true;
+        
+        for (int i = 0; i < computers.length; i++) {
+            if (i != k && !visited[i] && computers[k][i] == 1) {
+                dfs(computers, visited, i);
+            }
+        }
     }
     
     static void bfs(int[][] computers, boolean[] visited, int k) {
