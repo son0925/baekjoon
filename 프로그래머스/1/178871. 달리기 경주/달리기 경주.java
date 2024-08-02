@@ -1,36 +1,31 @@
 import java.util.*;
 
 class Solution {
+    static HashMap<String,Integer> map = new HashMap<>();
     public String[] solution(String[] players, String[] callings) {
-        HashMap<String,Integer> playerMap = new HashMap<>();
-        HashMap<Integer,String> rankMap = new HashMap<>();
         
+        // key : 플레이어이름, value : 순위
         for (int i = 0; i < players.length; i++) {
-            playerMap.put(players[i], i);
-        }
-        for (int i = 0; i < players.length; i++) {
-            rankMap.put(i, players[i]);
+            map.put(players[i], i);
         }
         
-        
-        for (String backPlayer : callings) {
-            int rank = playerMap.get(backPlayer);
-            String frontPlayer = rankMap.get(rank-1);
-            rankMap.put(rank-1, backPlayer);
-            rankMap.put(rank, frontPlayer);
-            playerMap.put(backPlayer, rank-1);
-            playerMap.put(frontPlayer, rank);
+        for (String calling : callings) {
+            int idx = map.get(calling);
+            playerSwap(players, idx);
         }
         
-        List<String> result = new ArrayList<>(playerMap.keySet());
-        Collections.sort(result, (o1,o2) -> playerMap.get(o1).compareTo(playerMap.get(o2)));
-        
-        return result.toArray(new String[result.size()]);
+        return players;
     }
     
-    static void playerSwap(String[] players, int index) {
-        String tmp = players[index-1];
-        players[index-1] = players[index];
-        players[index] = tmp;
+    
+    static void playerSwap(String[] players, int idx) {
+        // players 배열 위치 변경
+        String tmp = players[idx-1];
+        players[idx-1] = players[idx];
+        players[idx] = tmp;
+        
+        // map 변경하기
+        map.put(players[idx], idx);
+        map.put(players[idx-1], idx-1);
     }
 }
