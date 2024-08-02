@@ -24,12 +24,13 @@ class Solution {
             
             if (currentWord.equals(target)) {
                 result = Math.min(result, count);
-            } else {
-                for (int i = 0; i < words.length; i++) {
-                    if (!visited[i] && isTransForm(currentWord, words[i])) {
-                        visited[i] = true;
-                        q.add(new Word(words[i], count+1));
-                    }
+                break;
+            } 
+            
+            for (int i = 0; i < words.length; i++) {
+                if (!visited[i] && isTransForm(currentWord, words[i])) {
+                    visited[i] = true;
+                    q.add(new Word(words[i], count+1));
                 }
             }
         }
