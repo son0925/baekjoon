@@ -1,22 +1,17 @@
 import java.util.*;
 
 class Solution {
-    
-    static List<String> skipList;
-    
     public String solution(String s, String skip, int index) {
         StringBuilder sb = new StringBuilder();
         
-        skipList = new ArrayList<>(Arrays.asList(skip.split("")));
-        
         for (char c : s.toCharArray()) {
-            sb.append(passWordPerser(c, index));
+            sb.append(passWordPerser(c, index, skip));
         }
         
         return sb.toString();
     }
     
-    static char passWordPerser(char c, int index) {
+    static char passWordPerser(char c, int index, String skip) {
         int count = 0;
         while (count < index) {
             
@@ -25,7 +20,7 @@ class Solution {
             if (c > 'z')
                 c = (char) (c - 26);
             
-            if (!skipList.contains(""+c)) 
+            if (!skip.contains(""+c)) 
                 count++;
         }
         
