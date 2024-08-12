@@ -2,37 +2,48 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String[] id_list, String[] report, int k) {
+        // id_list 배열의 길이를 n으로 정의 (사용자 수)
         int n = id_list.length;
         
+        // 최종 결과를 저장할 배열, 모든 요소를 0으로 초기화
         int[] result = new int[n];
-        boolean[][] isReport = new boolean[n][n];
-        int[] counting = new int[n];
+        // 사용자가 신고한 내역을 기록할 2차원 boolean 배열
+        boolean[][] hasReported = new boolean[n][n];
+        // 각 사용자가 받은 신고 횟수를 기록할 배열
+        int[] reportCounts = new int[n];
         
-        HashMap<String,Integer> map = new HashMap<>();
+        // 사용자 ID를 인덱스와 매핑하기 위해 HashMap 사용
+        HashMap<String, Integer> userIndexMap = new HashMap<>();
         
+        // id_list 배열을 순회하여 각 사용자 ID에 대해 인덱스를 매핑
         for (int i = 0; i < n; i++) {
-            map.put(id_list[i], i);
+            userIndexMap.put(id_list[i], i);
         }
         
+        // report 배열을 순회하여 신고 내역을 처리
         for (int i = 0; i < report.length; i++) {
-            String[] tmp = report[i].split(" ");
+            // 신고 내용을 공백으로 분리하여 신고자와 피신고자 추출
+            String[] reportDetails = report[i].split(" ");
             
-            int x = map.get(tmp[0]);
-            int y = map.get(tmp[1]);
-            if (!isReport[x][y]) {
-                counting[y] += 1;
-                isReport[x][y] = true;
+            int reporterIndex = userIndexMap.get(reportDetails[0]);
+            int reportedIndex = userIndexMap.get(reportDetails[1]);
+            
+            // 동일한 신고는 한 번만 처리되도록 중복 신고 방지
+            if (!hasReported[reporterIndex][reportedIndex]) {
+                reportCounts[reportedIndex] += 1;
+                hasReported[reporterIndex][reportedIndex] = true;
             }
         }
         
+        // 각 사용자가 신고한 피신고자의 신고 횟수가 k 이상인 경우 결과 카운트 증가
         for (int i = 0; i < n; i++) {
-            int count = 0;
+            int validReportCount = 0;
             for (int j = 0; j < n; j++) {
-                if (isReport[i][j] && counting[j] >= k) {
-                    count++;
+                if (hasReported[i][j] && reportCounts[j] >= k) {
+                    validReportCount++;
                 }
             }
-            result[i] = count;
+            result[i] = validReportCount;
         }
         
         return result;
