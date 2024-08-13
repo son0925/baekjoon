@@ -1,47 +1,43 @@
 class Solution {
     public String solution(String a, String b) {
-        StringBuilder result = new StringBuilder();
-        StringBuilder sbA = new StringBuilder(a);
-        StringBuilder sbB = new StringBuilder(b);
-        sbA.reverse();
-        sbB.reverse();
+        int maxLen = Math.max(a.length(), b.length());
         
-        int n = Math.max(sbA.length(), sbB.length());
+        a = LPAD(a, maxLen);
+        b = LPAD(b, maxLen);
         
-        boolean flag = false;
-        for (int i = 0; i < n; i++) {
-            int numA, numB;
-            if (sbA.length() > i) {
-                numA = sbA.charAt(i) - '0';
-            } else {
-                numA = 0;
-            }
-            
-            if (sbB.length() > i) {
-                numB = sbB.charAt(i) - '0';
-            } else {
-                numB = 0;
-            }
-            
-            int num = numA + numB;
-            if (flag) {
-                num++;
-            }
+        StringBuilder sb = new StringBuilder();
+        
+        int carry = 0;
+        for (int i = a.length()-1; i >= 0; i--) {
+            int num = a.charAt(i) - '0' + b.charAt(i) - '0' + carry;
             
             if (num >= 10) {
-                flag = true;
+                carry = 1;
                 num %= 10;
             } else {
-                flag = false;
+                carry = 0;
             }
             
-            result.append(num);
-            
+            sb.append(num);
+        }
+        if (carry == 1) {
+            sb.append(carry);
+        } 
+        
+        return sb.reverse().toString();
+    }
+    
+    static String LPAD(String s, int len) {
+        if (s.length() >= len) {
+            return s;
         }
         
-        if (flag) {
-            result.append(1);
+        StringBuilder sb = new StringBuilder();
+        for (int i = 0; i < len - s.length(); i++) {
+            sb.append("0");
         }
-        return result.reverse().toString();
+        sb.append(s);
+        
+        return sb.toString();
     }
 }
