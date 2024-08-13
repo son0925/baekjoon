@@ -6,15 +6,13 @@ class Solution {
         List<Integer> list = new ArrayList<>();
         int index = 0;
         for (int i = 0; i < arr.length; i++) {
-            if (list.indexOf(arr[i]) == -1 && index < k) {
+            if (!list.contains(arr[i]) && index < k) {
                 result[index++] = arr[i];
                 list.add(arr[i]);
             }
         }
-        if (index < k) {
-            for (int i = index; i < k; i++) {
-                result[i] = -1;
-            }
+        for (int i = index; i < k; i++) {
+            result[i] = -1;
         }
         return result;
     }
