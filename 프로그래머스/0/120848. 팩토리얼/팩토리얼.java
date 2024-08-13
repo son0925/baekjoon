@@ -1,17 +1,14 @@
 class Solution {
     public int solution(int n) {
         int result = 1;
-        
         int num = 1;
-        int fact = 1;
         
-        while (n > fact) {
-            num++;
-            fact *= num;
+        while (n > num) {
             result++;
+            num *= result;
         }
         
-        if (n == fact) {
+        if (n == num) {
             return result;
         }
         
