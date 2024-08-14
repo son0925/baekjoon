@@ -2,35 +2,19 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String s) {
-        List<Integer> uniqueNumbers = new ArrayList<>();
-        String[] groups = s.substring(2, s.length() - 2).split("\\},\\{");
-        List<String[]> parsedGroups = new ArrayList<>();
+        Set<String> set = new HashSet<>();
         
-        for (String group : groups) {
-            parsedGroups.add(group.split(","));
-        }
+        String[] arr = s.substring(2,s.length()-2).split("\\},\\{");
+        int[] result = new int[arr.length];
+        Arrays.sort(arr, (o1, o2) -> {return o1.length() - o2.length();});
         
-        Collections.sort(parsedGroups, new Comparator<String[]>() {
-            public int compare(String[] group1, String[] group2) {
-                return Integer.compare(group1.length, group2.length);
-            }
-        });
-        
-        for (String[] group : parsedGroups) {
-            for (String numStr : group) {
-                int number = Integer.parseInt(numStr);
-                
-                if (!uniqueNumbers.contains(number)) {
-                    uniqueNumbers.add(number);
-                }
+        int index = 0;
+        for (String str1 : arr) {
+            for (String str2 : str1.split(",")) {
+                if (set.add(str2))
+                    result[index++] = Integer.parseInt(str2);
             }
         }
-        
-        int[] result = new int[uniqueNumbers.size()];
-        for (int i = 0; i < result.length; i++) {
-            result[i] = uniqueNumbers.get(i);
-        }
-        
         return result;
     }
 }
