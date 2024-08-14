@@ -1,18 +1,21 @@
+import java.util.*;
+
 class Solution {
     public int solution(String s) {
         int result = 0;
         
-        String[] arr = s.split(" ");
+        Stack<Integer> stack = new Stack<>();
         
-        for (int i = 0; i < arr.length; i++) {
-            if (arr[i].equals("Z")) {
-                arr[i-1] = "0";
-                arr[i] = "0";
+        for (String str : s.split(" ")) {
+            if (str.equals("Z") && !stack.isEmpty()) {
+                stack.pop();
+            } else {
+                stack.push(Integer.parseInt(str));
             }
         }
         
-        for (int i = 0; i < arr.length; i++) {
-            result += Integer.parseInt(arr[i]);
+        while (!stack.isEmpty()) {
+            result += stack.pop();
         }
         
         return result;
