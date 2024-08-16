@@ -15,10 +15,10 @@ class Solution {
         
         int[] result = new int[score.length];
         List<Double> list = new ArrayList<>(Arrays.asList(avgScore));
-        Collections.sort(list);
+        Collections.sort(list, Collections.reverseOrder());
         
         for (int i = 0; i < avgScore.length; i++) {
-            result[i] = avgScore.length - list.lastIndexOf(avgScore[i]);
+            result[i] = list.indexOf(avgScore[i]) + 1;
         }
         
         return result;
