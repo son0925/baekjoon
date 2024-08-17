@@ -2,35 +2,44 @@ import java.util.*;
 
 class Solution {
     public int[] solution(String msg) {
-        // 초기 사전 설정
         String[] initialWords = {"", "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z"};
-        List<String> dictionary = new ArrayList<>(Arrays.asList(initialWords));
+        
+        // msg 길이
+        int n = msg.length();
+        // 단어 index 추적
+        int s = 0;
+        
+        // 단어 사전
+        List<String> dic = new ArrayList<>(Arrays.asList(initialWords));
+        // index 저장 리스트
         List<Integer> list = new ArrayList<>();
         
-        int n = msg.length();
-        int s = 0;
-
+        // s(탐색 index)가 n보다 작을 때 반복
         while (s < n) {
             StringBuilder currentWord = new StringBuilder();
+            // 단어 1글자를 가져오기(무조건 사전에 존재하고 있음)
             currentWord.append(msg.charAt(s));
             
-            // 현재 문자열이 사전에 있는 동안 계속 확장
-            while (s + 1 < n && dictionary.contains(currentWord.toString() + msg.charAt(s + 1))) {
-                currentWord.append(msg.charAt(++s));
+            // s+1이 n보다 작고 사전에 없을 때까지 반복하기
+            while (s+1 < n && dic.contains(currentWord.toString() + msg.charAt(s+1))) {
+                s++;
+                currentWord.append(msg.charAt(s));
             }
             
-            // 사전에 있는 문자열의 인덱스 추가
-            list.add(dictionary.indexOf(currentWord.toString()));
+            // 현재 단어는 더 이상 단어를 추가할 수 없거나 사전에 없는 단어
             
-            // 현재 문자열을 사전에 추가
-            if (s + 1 < n) {
-                dictionary.add(currentWord.toString() + msg.charAt(s + 1));
+            // index 추가하기
+            list.add(dic.indexOf(currentWord.toString()));
+            
+            // s+1이 n보다 작다면 사전에 추가하기
+            if (s+1 < n) {
+                dic.add(currentWord.toString() + msg.charAt(s+1));
             }
             
-            s++; // 다음 문자로 이동
+            // 다음 단어를 위해 s + 1하기
+            s++;
         }
         
-        // 결과를 배열로 변환
         int[] result = new int[list.size()];
         for (int i = 0; i < result.length; i++) {
             result[i] = list.get(i);
