@@ -16,15 +16,26 @@ class Solution {
             }
         }
         
-        if (x == 0 && num != 0) {
-            return "" + num;
-        } else if (x > 1 && num == 0) {
-            return x + "x";
-        } else if (x == 1 && num != 0) {
-            return "x + " + num;
-        } else if (x == 1 && num == 0) {
-            return "x";
+        String result;
+        
+        if (x == 0 && num == 0) {
+            return "0";
         }
-        return x + "x + " + num;
+        
+        if (x == 1) {
+            result = "x";
+        } else {
+            result = x + "x";
+        }
+        
+        if (num == 0) {
+            return result;
+        } else if (x == 0) {
+            return "" + num;
+        } else {
+            result += " + " + num;
+        }
+        
+        return result;
     }
 }
