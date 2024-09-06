@@ -1,45 +1,47 @@
-import java.util.HashSet;
+import java.util.*;
 
 class Solution {
-    HashSet<Integer> primeNumbers = new HashSet<>();
+    
+    static HashSet<Integer> primeNumbers = new HashSet<>();
     
     public int solution(String numbers) {
         boolean[] visit = new boolean[numbers.length()];
-        // 1자리부터 numbers 길이까지 모든 조합을 시도
-        for (int i = 1; i <= numbers.length(); i++) {
+        
+        for (int i = 1; i <= visit.length; i++) {
             permutation(numbers, visit, 0, i, "");
         }
         
-        return primeNumbers.size(); // 중복을 제거한 소수 개수
+        return primeNumbers.size();
     }
     
-    public void permutation(String s, boolean[] visit, int depth, int count, String current) {
-        // 순열의 길이가 count만큼 되었을 때
-        if (depth == count) {
-            int num = Integer.parseInt(current);  // 현재 순열 문자열을 숫자로 변환
+    public void permutation(String numbers, boolean[] visit, int idx, int count, String current) {
+        if (idx == count) {
+            int num = Integer.parseInt(current);
+            
             if (num > 1 && isPrime(num)) {
-                primeNumbers.add(num);  // 소수이면 HashSet에 추가 (중복 제거)
+                primeNumbers.add(num);
             }
-            return;
         }
         
         for (int i = 0; i < visit.length; i++) {
             if (!visit[i]) {
                 visit[i] = true;
-                // 현재 선택한 문자를 추가하여 재귀 호출
-                permutation(s, visit, depth + 1, count, current + s.charAt(i));
-                visit[i] = false;  // 백트래킹
+                permutation(numbers, visit, idx+1, count, current + numbers.charAt(i));
+                visit[i] = false;
             }
         }
     }
     
     public boolean isPrime(int n) {
-        if (n < 2) return false;
-        for (int i = 2; i <= Math.sqrt(n); i++) {
+        boolean result = true;
+        
+        for (int i = 2; i < (int) Math.sqrt(n) + 1; i++) {
             if (n % i == 0) {
-                return false;
+                result = false;
+                break;
             }
         }
-        return true;
+        
+        return result;
     }
 }
