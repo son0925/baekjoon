@@ -1,10 +1,7 @@
-import java.util.*;
-
 class Solution {
     public int solution(int[] wallet, int[] bill) {
         int result = 0;
         
-        Arrays.sort(wallet);
         while (!isAble(wallet, bill)) {
             setSize(bill);
             result++;
@@ -15,9 +12,19 @@ class Solution {
     
     // 지갑 사이즈에 맞는지
     public boolean isAble(int[] wallet, int[] bill) {
-        // 오름차순으로 정렬
-        Arrays.sort(bill);
-        return wallet[0] >= bill[0] && wallet[1] >= bill[1];
+        return min(wallet) >= min(bill) && max(wallet) >= max(bill);
+    }
+    
+    
+    public int max(int[] arr) {
+        if (arr[0] > arr[1])
+            return arr[0];
+        return arr[1];
+    }
+    public int min(int[] arr) {
+        if (arr[0] < arr[1])
+            return arr[0];
+        return arr[1];
     }
     
     // 지폐 접기
