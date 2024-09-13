@@ -13,15 +13,9 @@ class Main {
         int result = 0;
         
         for (char c : bracket.toCharArray()) {
-        	// 비었을 때 추가하고 다음 괄호 확인
-        	if (stk.isEmpty()) {
-        		stk.push(c);
-        	}
-        	
         	// O 이거나 X 일 때
-        	else if (stk.peek() == '(' && c == ')' || stk.peek() == ')' && c == '(') {
+        	if (!stk.isEmpty() && (stk.peek() == '(' && c == ')' || stk.peek() == ')' && c == '(')) {
         		stk.pop();
-        		continue;
         	}
         	
         	else {
