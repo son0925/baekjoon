@@ -1,13 +1,10 @@
 class Solution {
     fun solution(n: Long): IntArray {
-        val result = mutableListOf<Int>()
-        var num = n
+        val result = n.toString()
+            .reversed()
+            .map {it.digitToInt()}
+            .toIntArray()
         
-        while (num > 0) {
-            result.add((num % 10).toInt())
-            num /= 10
-        }
-        
-        return result.toIntArray()
+        return result
     }
 }
