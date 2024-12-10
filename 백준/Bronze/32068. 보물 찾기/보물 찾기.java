@@ -15,20 +15,13 @@ public class Main {
 
             int s = in.nextInt(); // 시작 위치
 
-            int step = 1;
-            // step 홀수 일 때 오른쪽으로 이동
-            // 짝수 일 때 왼쪽으로 이동
-
-            while (s != l && s != r) {
-                if (step % 2 == 0) {
-                    s -= step;
-                } else {
-                    s += step;
-                }
-                step++;
+            if (s == l || s == r) {
+                System.out.println(1);
             }
 
-            System.out.println(step);
+            else {
+                System.out.println(Math.min((s-l) * 2 + 1, (r - s) * 2));
+            }
         }
     }
 }
