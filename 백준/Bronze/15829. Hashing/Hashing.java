@@ -8,10 +8,18 @@ public class Main {
     public static void main(String[] args) throws IOException {
         int n = Integer.parseInt(br.readLine());
 
-        int result = 0;
+        long result = 0;
         String input = br.readLine();
         for (int i = 0; i < n; i++) {
-            result = (int) ((result + (input.charAt(i) - 'a' + 1) * Math.pow(31, i)) % 1234567891);
+            long num = input.charAt(i) - 'a' + 1;
+
+            long mul = 1;
+            for (int j = 0; j < i; j++) {
+                mul = (mul * 31) % 1234567891;
+            }
+
+            result = (result + num * mul) % 1234567891;
+
         }
 
         System.out.println(result);
