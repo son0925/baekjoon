@@ -1,39 +1,36 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    public static void main(String[] args) throws IOException {
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
+    public static void main(String[] args) throws IOException {
         int N = Integer.parseInt(br.readLine());
         int M = Integer.parseInt(br.readLine());
+        String IOI = br.readLine();
 
-        String input = br.readLine();
-        String compare = getCompareString(N);
-
+        int count = 0;
         int result = 0;
-        for (int i = 0; i <= M - compare.length(); i++) {
+        for (int i = 1; i < M-1;i++) {
+            if (IOI.charAt(i) == 'O' && IOI.charAt(i+1) == 'I') {
+                count++;
 
-            if (input.charAt(i) != 'I' || input.charAt(i + compare.length() -1) != 'I') {
-                continue;
-            }
+                if (count == N) {
+                    if (IOI.charAt(i - (2*count-1)) == 'I') {
+                        result++;
+                    }
 
-            if (input.substring(i, i+compare.length()).equals(compare)) {
-                result++;
+                    count--;
+                }
+
+                i++;
+            } else {
+                count = 0;
             }
         }
 
         System.out.println(result);
-    }
-
-    public static String getCompareString(int N) {
-        StringBuilder sb = new StringBuilder();
-        sb.append("I");
-
-        for (int i = 0; i < N; i++) {
-            sb.append("OI");
-        }
-
-        return sb.toString();
     }
 }
