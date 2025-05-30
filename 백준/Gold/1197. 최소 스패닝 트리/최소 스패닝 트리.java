@@ -1,87 +1,82 @@
-import java.util.*;
 import java.io.*;
+import java.util.*;
 
 public class Main {
 
     static BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
-    static BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(System.out));
+    static StringBuilder sb = new StringBuilder();
+    static StringTokenizer st;
 
-    static int v; // 노드 개수
-    static int e; // 간선 개수
-    static int[] parent;
-    static PriorityQueue<Edge> pq = new PriorityQueue<>();
+    static int[] parents;
 
     public static void main(String[] args) throws IOException {
-        StringTokenizer st = new StringTokenizer(br.readLine());
+        st = new StringTokenizer(br.readLine());
+        int N = Integer.parseInt(st.nextToken());
+        int M = Integer.parseInt(st.nextToken());
 
-        v = Integer.parseInt(st.nextToken());
-        e = Integer.parseInt(st.nextToken());
-
-        parent = new int[v+1];
-
-        for (int i = 1; i <= v; i++) {
-            parent[i] = i;
+        parents = new int[N+1];
+        for (int i = 1; i <= N; i++) {
+            parents[i] = i;
         }
 
-        for (int i = 0; i < e; i++) {
-            st = new StringTokenizer(br.readLine());
+        PriorityQueue<Node> pq = new PriorityQueue<>();
 
+        for (int i = 0; i < M; i++) {
+            st = new StringTokenizer(br.readLine());
             int v1 = Integer.parseInt(st.nextToken());
             int v2 = Integer.parseInt(st.nextToken());
-            int weight = Integer.parseInt(st.nextToken());
+            int cost = Integer.parseInt(st.nextToken());
 
-            pq.offer(new Edge(v1, v2, weight));
+            pq.offer(new Node(v1, v2, cost));
         }
 
 
-        int weight = 0;
-        while (!pq.isEmpty()) {
-            Edge now = pq.poll();
+        int result = 0;
+        while(!pq.isEmpty()) {
+            Node cur = pq.poll();
 
-            if (find(now.v1) != find(now.v2)) {
-                union(now.v1, now.v2);
-                weight += now.weight;
+            if (find(cur.v1) != find(cur.v2)) {
+                union(cur.v1, cur.v2);
+                result += cur.cost;
             }
         }
 
-        System.out.println(weight);
+        System.out.println(result);
     }
 
-    public static void union(int v1, int v2) {
+    static int find(int v) {
+        if (v == parents[v]) {
+            return v;
+        }
+
+        return parents[v] = find(parents[v]);
+    }
+
+    static void union(int v1, int v2) {
         int p1 = find(v1);
         int p2 = find(v2);
 
         if (p1 < p2) {
-            parent[p2] = p1;
+            parents[p2] = p1;
         } else {
-            parent[p1] = p2;
+            parents[p1] = p2;
         }
-    }
-
-    public static int find(int n) {
-        if (n == parent[n]) {
-            return n;
-        }
-
-        return parent[n] = find(parent[n]);
     }
 }
 
-
-class Edge implements Comparable<Edge> {
+class Node implements Comparable<Node> {
     int v1;
     int v2;
-    int weight;
+    int cost;
 
-    public Edge(int v1, int v2, int weight) {
+    public Node(int v1, int v2, int cost) {
         this.v1 = v1;
         this.v2 = v2;
-        this.weight = weight;
+        this.cost = cost;
     }
 
-
     @Override
-    public int compareTo(Edge o) {
-        return this.weight - o.weight;
+    public int compareTo(Node o) {
+        return Integer.compare(this.cost, o.cost);
     }
 }
